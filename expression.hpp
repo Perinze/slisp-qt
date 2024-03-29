@@ -7,7 +7,6 @@
 #include <tuple>
 #include <cmath>
 #include <limits>
-#include <sstream>
 
 // A Type is a literal boolean, literal number, or symbol
 enum Type {NoneType, BooleanType, NumberType, ListType, SymbolType,
@@ -26,6 +25,9 @@ typedef std::string Symbol;
 struct Point {
   Number x;
   Number y;
+  Point(): x(0.), y(0.) {}
+  Point(std::tuple<double, double> value):
+    x(std::get<0>(value)), y(std::get<1>(value)) {}
   bool operator==(const Point &p) const {
     return (fabs(x - p.x) < std::numeric_limits<double>::epsilon()) &&
            (fabs(y - p.y) < std::numeric_limits<double>::epsilon());
@@ -35,18 +37,33 @@ struct Point {
   }
 };
 
+std::ostream & operator<<(std::ostream & out, const Point point);
+
 // A Line is two Points
 struct Line{
   Point first;
   Point second;
+  Line(): first(Point()), second(Point()) {}
+  Line(std::tuple<double, double> start,
+          std::tuple<double, double> end):
+    first(start), second(end) {}
 };
+
+std::ostream & operator<<(std::ostream & out, const Line line);
 
 // An Arc is a center and start point and a span angle in radians
 struct Arc{
   Point center;
   Point start;
   Number span;
+  Arc(): center(Point()), start(Point()), span(0.) {}
+  Arc(std::tuple<double, double> center,
+          std::tuple<double, double> start,
+          double angle):
+    center(center), start(start), span(angle) {}
 };
+
+std::ostream & operator<<(std::ostream & out, const Arc arc);
   
 // A Value is a boolean, number, or symbol
 // cannot use a union because symbol is non-POD

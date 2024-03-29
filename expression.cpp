@@ -7,6 +7,8 @@
 #include <limits>
 #include <cctype>
 #include <tuple>
+#include <exception>
+#include <regex>
 
 Expression::Expression(bool tf){
   head.type = BooleanType;
@@ -25,15 +27,13 @@ Expression::Expression(const std::string & sym){
 
 Expression::Expression(std::tuple<double,double> value){
   head.type = PointType;
-  head.value.point_value.x = std::get<0>(value);
-  head.value.point_value.y = std::get<1>(value);
+  head.value.point_value = Point(value);
 }
 
 Expression::Expression(std::tuple<double,double> start,
 		       std::tuple<double,double> end){
   head.type = LineType;
-  head.value.line_value.first = Expression(start);
-  head.value.line_value.second = Expression(end);
+  head.value.line_value = Line(start, end);
 }
 
 
@@ -41,9 +41,7 @@ Expression::Expression(std::tuple<double,double> center,
 		       std::tuple<double,double> start,
 		       double angle){
   head.type = ArcType;
-  head.value.arc_value.center = Expression(center);
-  head.value.arc_value.start = Expression(start);
-  head.value.arc_value.span = Expression(angle);
+  head.value.arc_value = Arc(center, start, angle);
 }
 
 bool Expression::operator==(const Expression & exp) const noexcept{
@@ -95,6 +93,22 @@ bool Expression::operator==(const Expression & exp) const noexcept{
   return false;
 }
 
+std::ostream & operator<<(std::ostream & out, const Point point) {
+  out << point.x << "," << point.y;
+  return out;
+}
+
+std::ostream & operator<<(std::ostream & out, const Line line) {
+  out << "(" << line.first << "),(" << line.second << ")";
+  return out;
+}
+
+std::ostream & operator<<(std::ostream & out, const Arc arc) {
+  out << "(" << arc.center << "),(" << arc.start << ") ";
+  out << arc.span;
+  return out;
+}
+
 std::ostream & operator<<(std::ostream & out, const Expression & exp){
   out << "(";
   switch (exp.head.type)
@@ -112,16 +126,14 @@ std::ostream & operator<<(std::ostream & out, const Expression & exp){
     out << exp.head.value.sym_value;
     break;
   case PointType:
-    out << exp.head.value.point_value.x << ",";
-    out << exp.head.value.point_value.y;
+    out << exp.head.value.point_value;
     break;
   case LineType:
-    out << exp.head.value.line_value.first << ",";
-    out << exp.head.value.line_value.second;
+    out << exp.head.value.line_value;
+    break;
   case ArcType:
-    out << exp.head.value.arc_value.center << ",";
-    out << exp.head.value.arc_value.start << " ";
-    out << exp.head.value.arc_value.span;
+    out << exp.head.value.arc_value;
+    break;
   default:
     break;
   }
