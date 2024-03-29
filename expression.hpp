@@ -7,10 +7,11 @@
 #include <tuple>
 #include <cmath>
 #include <limits>
+#include <sstream>
 
 // A Type is a literal boolean, literal number, or symbol
 enum Type {NoneType, BooleanType, NumberType, ListType, SymbolType,
-	   PointType, LineType, ArcType};
+	   PointType, LineType, ArcType, KeywordType};
 
 // A Boolean is a C++ bool
 typedef bool Boolean;
