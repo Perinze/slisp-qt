@@ -28,6 +28,8 @@ struct Point {
   Point(): x(0.), y(0.) {}
   Point(std::tuple<double, double> value):
     x(std::get<0>(value)), y(std::get<1>(value)) {}
+  Point(double x, double y):
+    x(x), y(y) {}
   bool operator==(const Point &p) const {
     return (fabs(x - p.x) < std::numeric_limits<double>::epsilon()) &&
            (fabs(y - p.y) < std::numeric_limits<double>::epsilon());
@@ -44,6 +46,8 @@ struct Line{
   Point first;
   Point second;
   Line(): first(Point()), second(Point()) {}
+  Line(Point start, Point end):
+    first(start), second(end) {}
   Line(std::tuple<double, double> start,
           std::tuple<double, double> end):
     first(start), second(end) {}
@@ -57,6 +61,8 @@ struct Arc{
   Point start;
   Number span;
   Arc(): center(Point()), start(Point()), span(0.) {}
+  Arc(Point center, Point start, double angle):
+    center(center), start(start), span(angle) {}
   Arc(std::tuple<double, double> center,
           std::tuple<double, double> start,
           double angle):
@@ -102,17 +108,20 @@ struct Expression{
 
   // Construct an Expression with a single Point atom with value
   Expression(std::tuple<double,double> value);
+  Expression(Point point);
   
   // Construct an Expression with a single Line atom with starting
   // point start and ending point end
   Expression(std::tuple<double,double> start, 
 	     std::tuple<double,double> end);
+  Expression(Line line);
   
   // Construct an Expression with a single Arc atom with center
   // point center, starting point start, and spanning angle angle in radians 
   Expression(std::tuple<double,double> center, 
 	     std::tuple<double,double> start, 
 	     double angle);
+  Expression(Arc arc);
   
   bool operator==(const Expression & exp) const noexcept;
 };

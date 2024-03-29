@@ -30,18 +30,32 @@ Expression::Expression(std::tuple<double,double> value){
   head.value.point_value = Point(value);
 }
 
+Expression::Expression(Point point) {
+  head.type = PointType;
+  head.value.point_value = point;
+}
+
 Expression::Expression(std::tuple<double,double> start,
 		       std::tuple<double,double> end){
   head.type = LineType;
   head.value.line_value = Line(start, end);
 }
 
+Expression::Expression(Line line) {
+  head.type = LineType;
+  head.value.line_value = line;
+}
 
 Expression::Expression(std::tuple<double,double> center,
 		       std::tuple<double,double> start,
 		       double angle){
   head.type = ArcType;
   head.value.arc_value = Arc(center, start, angle);
+}
+
+Expression::Expression(Arc arc) {
+  head.type = ArcType;
+  head.value.arc_value = arc;
 }
 
 bool Expression::operator==(const Expression & exp) const noexcept{
