@@ -5,17 +5,26 @@
 #include <QLineEdit>
 
 MessageWidget::MessageWidget(QWidget *parent) : QWidget(parent) {
-  // TODO: your code here...
+  QHBoxLayout *layout = new QHBoxLayout(this);
+
+  QLabel *label = new QLabel("Message:", this);
+  layout->addWidget(label);
+
+  lineEdit = new QLineEdit(this);
+  lineEdit->setReadOnly(true);
+  layout->addWidget(lineEdit);
 }
 
 void MessageWidget::info(QString message) {
-  // TODO: your code here...
+  lineEdit->setText(message);
+  lineEdit->setStyleSheet("");
 }
 
 void MessageWidget::error(QString message) {
-  // TODO: your code here...
+  lineEdit->setText(message);
+  lineEdit->setStyleSheet("color: red;");
 }
 
 void MessageWidget::clear() {
-  // TODO: your code here...
+  lineEdit->clear();
 }

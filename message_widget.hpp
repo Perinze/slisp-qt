@@ -19,6 +19,9 @@ public slots:
   void error(QString message);
 
   void clear();
+
+private:
+  QLineEdit *lineEdit;
 };
 
 #endif
