@@ -3,6 +3,8 @@
 
 // system includes
 #include <map>
+#include <exception>
+#include "stdexcept"
 
 // module includes
 #include "expression.hpp"
