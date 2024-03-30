@@ -20,6 +20,10 @@ signals:
 private slots:
 
   void changed();
+
+private:
+
+  QLineEdit *lineEdit;
 };
 
 #endif

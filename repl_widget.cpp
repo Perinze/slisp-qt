@@ -7,9 +7,18 @@
 #include <QKeyEvent>
 
 REPLWidget::REPLWidget(QWidget * parent): QWidget(parent){
-  // TODO: your code here
+  QHBoxLayout *layout = new QHBoxLayout(this);
+
+  QLabel *label = new QLabel("slisp>", this);
+  layout->addWidget(label);
+
+  lineEdit = new QLineEdit(this);
+  connect(lineEdit, &QLineEdit::textChanged, this, &REPLWidget::changed);
+  layout->addWidget(lineEdit);
 }
 
 void REPLWidget::changed() {
-  // TODO: your code here
+  QString text = lineEdit->text();
+  std::cout << "changed\n";
+  emit(lineEntered(text));
 }

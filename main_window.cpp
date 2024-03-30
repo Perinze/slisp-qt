@@ -20,4 +20,7 @@ MainWindow::MainWindow(std::string filename, QWidget * parent): QWidget(parent){
 
   MessageWidget *messageWidget = new MessageWidget(this);
   layout->addWidget(messageWidget);
+
+  REPLWidget *replWidget = new REPLWidget(this);
+  layout->addWidget(replWidget);
 }
