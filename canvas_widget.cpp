@@ -7,9 +7,12 @@
 #include <QLayout>
 
 CanvasWidget::CanvasWidget(QWidget * parent): QWidget(parent){
-  // TODO: your code here...
+  scene = new QGraphicsScene(this);
+  QGraphicsView *view = new QGraphicsView(scene, this);
+  view->setRenderHint(QPainter::Antialiasing);
+  view->setMinimumSize(400, 400);
 }
 
 void CanvasWidget::addGraphic(QGraphicsItem * item){
-  // TODO: your code here...
+  scene->addItem(item);
 }

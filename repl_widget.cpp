@@ -19,6 +19,5 @@ REPLWidget::REPLWidget(QWidget * parent): QWidget(parent){
 
 void REPLWidget::changed() {
   QString text = lineEdit->text();
-  std::cout << "changed\n";
   emit(lineEntered(text));
 }
