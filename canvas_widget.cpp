@@ -9,8 +9,7 @@
 CanvasWidget::CanvasWidget(QWidget * parent): QWidget(parent){
   scene = new QGraphicsScene(this);
   QGraphicsView *view = new QGraphicsView(scene, this);
-  view->setRenderHint(QPainter::Antialiasing);
-  view->setMinimumSize(400, 400);
+  view->setMinimumSize(1000, 600);
 }
 
 void CanvasWidget::addGraphic(QGraphicsItem * item){
