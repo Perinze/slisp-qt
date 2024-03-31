@@ -28,9 +28,14 @@ void QtInterpreter::parseAndEvaluate(QString entry){
   }
   try {
     auto exp = interpreter.eval();
-    switch (exp.head.type) {
-      default:
-      break;
+    for (const auto &item_exp : exp.tail) {
+      switch (item_exp.head.type) {
+        case PointType:
+        auto point = item_exp.head.value.point_value;
+        auto point_item = new QGraphicsEllipseItem(point.x, point.y, 2, 2);
+        emit drawGraphic(point_item);
+        break;
+      }
     }
     emit info(format(exp));
   } catch (const InterpreterSemanticError &e) {

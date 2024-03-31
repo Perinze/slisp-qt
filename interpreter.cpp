@@ -88,7 +88,7 @@ Expression Interpreter::parse_top_down(const TokenSequenceType::iterator & it,
   return exp;
 }
 
-Expression Interpreter::eval_top_down(const Expression & exp) {
+Expression Interpreter::eval_top_down(Expression & exp) {
   EnvResult envres;
   if (exp.head.type == KeywordType) {
     if (exp.head.value.sym_value == "begin") {
@@ -114,6 +114,11 @@ Expression Interpreter::eval_top_down(const Expression & exp) {
       } else {
         return eval_top_down(exp.tail[2]);
       }
+    } else if (exp.head.value.sym_value == "draw") {
+      for (auto &item : exp.tail) {
+        item = eval_top_down(item);
+      }
+      return exp;
     } else {
       throw InterpreterSemanticError("unexpected keyword");
     }

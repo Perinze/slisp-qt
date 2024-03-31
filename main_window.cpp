@@ -31,4 +31,5 @@ MainWindow::MainWindow(std::string filename, QWidget * parent): QWidget(parent){
   connect(replWidget, &REPLWidget::lineEntered, interpreter, &QtInterpreter::parseAndEvaluate);
   connect(interpreter, &QtInterpreter::info, messageWidget, &MessageWidget::info);
   connect(interpreter, &QtInterpreter::error, messageWidget, &MessageWidget::error);
+  connect(interpreter, &QtInterpreter::drawGraphic, canvasWidget, &CanvasWidget::addGraphic);
 }

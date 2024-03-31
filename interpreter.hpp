@@ -27,7 +27,7 @@ protected:
   std::vector<Atom> graphics;
 private:
   static Expression parse_top_down(const TokenSequenceType::iterator&, std::function<std::string&(void)>, std::function<bool()>);
-  Expression eval_top_down(const Expression & exp);
+  Expression eval_top_down(Expression & exp);
 };
 
 
