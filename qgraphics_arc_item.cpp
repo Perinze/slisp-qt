@@ -6,11 +6,13 @@
 #include <QPainter>
 
 QGraphicsArcItem::QGraphicsArcItem(qreal x, qreal y, qreal width, qreal height,
-                                   QGraphicsItem *parent) {
-  // TODO: your code here ...
-}
+                                   qreal start, qreal span,
+                                   QGraphicsItem *parent):
+                  QGraphicsEllipseItem(x, y, width, height, parent),
+                  start(start), span(span) {}
+
 void QGraphicsArcItem::paint(QPainter *painter,
                              const QStyleOptionGraphicsItem *option,
                              QWidget *widget) {
-  // TODO: your code here ...
+  painter->drawArc(boundingRect(), start, span);
 }

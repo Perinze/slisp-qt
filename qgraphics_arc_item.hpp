@@ -7,12 +7,13 @@ class QGraphicsArcItem: public QGraphicsEllipseItem{
 
 public:
 
-  QGraphicsArcItem(qreal x, qreal y, qreal width, qreal height,
+  QGraphicsArcItem(qreal x, qreal y, qreal width, qreal height, qreal start, qreal span,
 		   QGraphicsItem *parent = nullptr);
 
   void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
 private:
+  qreal start, span;
 };
 
 

@@ -46,6 +46,16 @@ void QtInterpreter::parseAndEvaluate(QString entry){
           emit drawGraphic(line_item);
         }
         break;
+
+        case ArcType:
+        {
+          auto arc = item_exp.head.value.arc_value;
+          auto arc_item = new QGraphicsArcItem(arc.center.x, arc.center.y,
+                                               arc.start.x, arc.start.y,
+                                               arc.span, arc.span);
+          emit drawGraphic(arc_item);
+        }
+        break;
       }
     }
     emit info(format(exp));
