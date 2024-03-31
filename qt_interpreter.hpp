@@ -27,6 +27,10 @@ signals:
 public slots:
 
   void parseAndEvaluate(QString entry);
+
+private:
+
+  Interpreter interpreter;
 };
 
 #endif

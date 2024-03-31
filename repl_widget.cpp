@@ -13,11 +13,12 @@ REPLWidget::REPLWidget(QWidget * parent): QWidget(parent){
   layout->addWidget(label);
 
   lineEdit = new QLineEdit(this);
-  connect(lineEdit, &QLineEdit::textChanged, this, &REPLWidget::changed);
+  connect(lineEdit, &QLineEdit::returnPressed, this, &REPLWidget::changed);
   layout->addWidget(lineEdit);
 }
 
 void REPLWidget::changed() {
   QString text = lineEdit->text();
-  emit(lineEntered(text));
+  lineEdit->clear();
+  emit lineEntered(text);
 }

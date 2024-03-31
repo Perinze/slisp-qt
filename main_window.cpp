@@ -26,4 +26,9 @@ MainWindow::MainWindow(std::string filename, QWidget * parent): QWidget(parent){
 
   REPLWidget *replWidget = new REPLWidget(this);
   layout->addWidget(replWidget);
+
+  QtInterpreter *interpreter = new QtInterpreter(this);
+  connect(replWidget, &REPLWidget::lineEntered, interpreter, &QtInterpreter::parseAndEvaluate);
+  connect(interpreter, &QtInterpreter::info, messageWidget, &MessageWidget::info);
+  connect(interpreter, &QtInterpreter::error, messageWidget, &MessageWidget::error);
 }
