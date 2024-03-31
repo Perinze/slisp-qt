@@ -31,9 +31,20 @@ void QtInterpreter::parseAndEvaluate(QString entry){
     for (const auto &item_exp : exp.tail) {
       switch (item_exp.head.type) {
         case PointType:
-        auto point = item_exp.head.value.point_value;
-        auto point_item = new QGraphicsEllipseItem(point.x, point.y, 2, 2);
-        emit drawGraphic(point_item);
+        {
+          auto point = item_exp.head.value.point_value;
+          auto point_item = new QGraphicsEllipseItem(point.x, point.y, 2, 2);
+          emit drawGraphic(point_item);
+        }
+        break;
+
+        case LineType:
+        {
+          auto line = item_exp.head.value.line_value;
+          auto line_item = new QGraphicsLineItem(line.first.x, line.first.y,
+                                               line.second.x, line.second.y);
+          emit drawGraphic(line_item);
+        }
         break;
       }
     }
