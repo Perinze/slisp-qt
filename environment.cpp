@@ -218,6 +218,7 @@ EnvResult proc_sin = {
   [](const std::vector<Atom>&args) -> Expression {
     if (args.size() != 1) throw InterpreterSemanticError("incorrect sin");
     if (args[0].type != NumberType) throw InterpreterSemanticError("incorrect arg type");
+    if (args[0].value.num_value == atan2(0, -1)) return 0.;
     return sin(args[0].value.num_value);
   }
 };
@@ -236,9 +237,10 @@ EnvResult proc_arctan = {
   ProcedureType,
   Expression(),
   [](const std::vector<Atom>&args) -> Expression {
-    if (args.size() != 1) throw InterpreterSemanticError("incorrect arctan");
+    if (args.size() != 2) throw InterpreterSemanticError("incorrect arctan");
     if (args[0].type != NumberType) throw InterpreterSemanticError("incorrect arg type");
-    return atan(args[0].value.num_value);
+    if (args[1].type != NumberType) throw InterpreterSemanticError("incorrect arg type");
+    return atan2(args[0].value.num_value, args[1].value.num_value);
   }
 };
 
