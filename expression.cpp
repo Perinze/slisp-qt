@@ -99,12 +99,14 @@ bool Expression::operator==(const Expression & exp) const noexcept{
       return false;
     if (head.value.arc_value.span != exp.head.value.arc_value.span)
       return false;
+    break;
   
   default:
+    return false;
     break;
   }
   if (tail.size() != exp.tail.size()) return false;
-  return false;
+  return true;
 }
 
 std::ostream & operator<<(std::ostream & out, const Point point) {
