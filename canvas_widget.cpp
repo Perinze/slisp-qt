@@ -9,7 +9,10 @@
 CanvasWidget::CanvasWidget(QWidget * parent): QWidget(parent){
   scene = new QGraphicsScene(this);
   QGraphicsView *view = new QGraphicsView(scene, this);
-  view->setMinimumSize(1000, 600);
+  //view->setMinimumSize(1000, 600);
+
+  auto layout = new QVBoxLayout(this);
+  layout->addWidget(view);
 }
 
 void CanvasWidget::addGraphic(QGraphicsItem * item){

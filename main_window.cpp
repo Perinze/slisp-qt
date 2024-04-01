@@ -1,6 +1,8 @@
 #include "main_window.hpp"
 
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 #include <QLayout>
 
@@ -12,10 +14,6 @@
 MainWindow::MainWindow(QWidget * parent): MainWindow("", parent) {}
 
 MainWindow::MainWindow(std::string filename, QWidget * parent): QWidget(parent){
-  if (!filename.empty()) {
-    // TODO
-  }
-
   QVBoxLayout *layout = new QVBoxLayout(this);
 
   MessageWidget *messageWidget = new MessageWidget(this);
@@ -27,9 +25,20 @@ MainWindow::MainWindow(std::string filename, QWidget * parent): QWidget(parent){
   REPLWidget *replWidget = new REPLWidget(this);
   layout->addWidget(replWidget);
 
-  QtInterpreter *interpreter = new QtInterpreter(this);
-  connect(replWidget, &REPLWidget::lineEntered, interpreter, &QtInterpreter::parseAndEvaluate);
-  connect(interpreter, &QtInterpreter::info, messageWidget, &MessageWidget::info);
-  connect(interpreter, &QtInterpreter::error, messageWidget, &MessageWidget::error);
-  connect(interpreter, &QtInterpreter::drawGraphic, canvasWidget, &CanvasWidget::addGraphic);
+  layout->setStretchFactor(messageWidget, 0);
+  layout->setStretchFactor(canvasWidget, 1);
+  layout->setStretchFactor(replWidget, 0);
+
+  connect(replWidget, &REPLWidget::lineEntered, &interp, &QtInterpreter::parseAndEvaluate);
+  connect(&interp, &QtInterpreter::info, messageWidget, &MessageWidget::info);
+  connect(&interp, &QtInterpreter::error, messageWidget, &MessageWidget::error);
+  connect(&interp, &QtInterpreter::drawGraphic, canvasWidget, &CanvasWidget::addGraphic);
+
+  if (!filename.empty()) {
+    std::ifstream ifs(filename);
+    std::stringstream buf;
+    buf << ifs.rdbuf();
+    ifs.close();
+    interp.parseAndEvaluate(QString::fromStdString(buf.str()));
+  }
 }
